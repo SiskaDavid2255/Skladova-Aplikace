@@ -1,0 +1,190 @@
+﻿<Page x:Class="Sklad.Presentation.pgPrehMat"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sklad.Presentation"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="pgPrehMat">
+    <Page.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="PotvrditCanExecute" Executed="btnOK_Click"/>
+    </Page.CommandBindings>
+    <Page.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockStyleProZadavani}"/>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxStyleProZadavani}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyleProZadavani}"/>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyleProZadavani}"/>
+
+
+    </Page.Resources>
+    
+
+
+
+
+    <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <WrapPanel Margin="10,0,0,0">
+                <Button Padding="3" Grid.Column="1" Name="btnAddMat" Width="24" Height="24" Margin="0,5,5,0" Click="btnAddMat_Click">
+                    <Image Source="..\Resources\Icons\Add.png"></Image>
+                </Button>
+
+                <WrapPanel IsEnabled="{Binding JeOznacenMaterial}">
+                    <Button Padding="3" Grid.Column="1" Name="btnDelMat" Width="24" Height="24" Margin="0,5,5,0"  >
+                        <Image Source="..\Resources\Icons\Delete.png"></Image>
+                    </Button>
+                    <Button Padding="3" x:Name="btnEditMat" Width="24" Height="24" Margin="0,5,5,0" Click="BtnEditMat_Click" >
+                        <Image Source="..\Resources\Icons\Edit.png"/>
+                    </Button>
+                </WrapPanel>
+
+            </WrapPanel>
+
+
+            <GroupBox Header="{Binding AktualniRezimString}" Grid.Row="1" IsEnabled="{Binding RezimPridavaniNeboEditace}" Name="gbLeva">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Číslo:"/>
+                    <TextBlock Text="Měrná jednotka:" Grid.Column="1"/>
+
+                    <TextBox Text="{Binding MaterialSelected.MaterialId}" IsReadOnly="True" Grid.Row="1"/>
+                    <ComboBox ItemsSource="{Binding MerneJednotkyCol}" SelectedValue="{Binding MaterialSelected.MernaJednotka, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" DisplayMemberPath="Popis" Grid.Row="1" Grid.Column="1" Background="{DynamicResource PovinnePole}"/>
+
+                    <TextBlock Text="Název materiálu:" Grid.Row="2"/>
+                    <TextBox Text="{Binding MaterialSelected.NazevMat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" Grid.Row="3" Grid.ColumnSpan="2" Background="{DynamicResource PovinnePole}"/>
+
+                    <TextBlock Text="Maximální množství v paletě:" Grid.Row="4" Grid.ColumnSpan="2"/>
+                    <TextBox Text="{Binding MaterialSelected.MnozDoPal, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Grid.Row="5" Grid.ColumnSpan="2" Background="{DynamicResource PovinnePole}"/>
+
+                    <TextBlock Text="Pojistné množství:" Grid.Row="6" Grid.ColumnSpan="2"/>
+                    <TextBox Text="{Binding MaterialSelected.MnozPoj, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.ColumnSpan="2" Background="{DynamicResource PovinnePole}"/>
+
+                    <TextBlock Text="Komentář" Grid.Row="8"/>
+                    <TextBox  Grid.Row="9" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.CanContentScroll="True" AcceptsReturn="True" TextWrapping="Wrap" SpellCheck.IsEnabled="True"  Language="cs-CZ"  VerticalAlignment="Stretch" Text="{Binding MaterialSelected.Komentar,  UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid Grid.Row="10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Name="btnOK" Content="OK" Margin="10,2,10,2" Command="ApplicationCommands.Save" />
+                        <Button Name="btnStrono" Grid.Column="1" Content="Storno" Margin="0,2,10,2" HorizontalAlignment="Right" Width="108" Click="btnStrono_Click"/>
+
+                    </Grid>
+
+
+
+
+
+                </Grid>
+
+
+            </GroupBox>
+
+        </Grid>
+
+
+
+        <GroupBox Header="Materiály" Grid.Column="1">
+
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Text="Filtr:"/>
+                <TextBox Text="{Binding FiltrMaterialNazev, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="0,0,10,0"/>
+
+
+                <GroupBox Header="Materiály" Grid.Row="1" Grid.ColumnSpan="2">
+
+                    <DataGrid Name="dgMaterialy" ItemsSource="{Binding MaterialyCol}" HeadersVisibility="Column" SelectionMode="Single"
+                      AutoGenerateColumns="False" IsReadOnly="True" SelectedValue="{Binding MaterialSelected}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding MaterialId}"/>
+                            <DataGridTextColumn Header="Název" Width="*" Binding="{Binding NazevMat}"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </GroupBox>
+
+
+
+
+            </Grid>
+        </GroupBox>
+
+            <GroupBox Header="Palety" Grid.Column="2">
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Palety" >
+                    <DataGrid Name="dgMaterialyPalety" ItemsSource="{Binding MaterialSelected.Palety}" HeadersVisibility="Column" SelectionMode="Single"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding PaletaId}"/>
+                            <DataGridTextColumn Header="Adresa" Width="*" Binding="{Binding AdrUlo}"/>
+                            <DataGridTextColumn Header="Množství" Width="*" Binding="{Binding MnozPa}"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </GroupBox>
+                <WrapPanel Grid.Row="1" Margin="0,0,10,0" HorizontalAlignment="Right">
+                    <TextBlock Text="Celkové množství: " />
+                    <TextBlock Text="{Binding MaterialSelected.CelkoveMnozstvi}" />
+                </WrapPanel>
+            </Grid>
+
+        </GroupBox>
+    </Grid>
+
+
+</Page>

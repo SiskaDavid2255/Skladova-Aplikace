@@ -1,0 +1,73 @@
+﻿<Controls:MetroWindow x:Class="Sklad.Presentation.winHlavni"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sklad.Presentation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+                      BorderThickness="1" 
+                      GlowBrush="Black"
+                      ResizeMode="CanResizeWithGrip"
+                      WindowTransitionsEnabled="False"
+                      WindowStartupLocation="CenterScreen"
+        Title="PLC Evidence" Height="600" Width="920">
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <TextBlock Name="tbStatusBar" Margin="10,5,0,0"  Text="Připraven…" Grid.Row="2" FontSize="14" FontWeight="SemiBold"/>
+
+        <Menu HorizontalAlignment="Right"  IsEnabled="{Binding LzePouzivatMenu}" >
+            
+            <MenuItem Margin="0,0,0,0" Name="miUloz" IsEnabled="{Binding LzeUkladat}" Click="miUloz_Click" >
+                <MenuItem.Header>
+                    <StackPanel>
+                        <Image Width="48" Height="48" Source="..\Resources\MainMenu\save.png" />
+                        <TextBlock Text="Uložit" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+
+
+
+            <MenuItem Name="miPrehMat" Click="MiPrehMat_Click">
+                <MenuItem.Header>
+                    <StackPanel>
+                        <Image Width="48" Height="48" Source="..\Resources\MainMenu\prehledmat.png"/>
+                        <TextBlock Text="Přehled PLC" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+
+            <MenuItem Name="miPrehPal">
+                <MenuItem.Header>
+                    <StackPanel>
+                        <Image Width="48" Height="48" Source="..\Resources\MainMenu\prehledpal.png"/>
+                        <TextBlock Text="Přehled zákazníků" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Name="miPalety" Click="miPalety_Click">
+                <MenuItem.Header>
+                    <StackPanel>
+                        <Image Width="48" Height="48" Source="..\Resources\MainMenu\paleta.png"/>
+                        <TextBlock Text="Zákazníci" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+
+
+
+
+        </Menu>
+
+        <Frame x:Name="frame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+    </Grid>
+</Controls:MetroWindow>
